@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "dev.chainmail"
-version = "1.0.0"
+version = project.properties["version"] as String
 
 repositories {
     mavenCentral()
