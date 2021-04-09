@@ -12,26 +12,33 @@ data class Tag(
         .reduce { acc, it -> acc * 100 + it }
 
     operator fun inc(): Tag {
-        if (postfix != null) {
-            val newPostfix = if (postfix.contains(numbers)) {
-                val number = postfix.replace(characters, "").toInt()
-                val chars = postfix.replace(numbers, "")
-                "${chars}${number + 1}"
-            } else {
-                "${postfix}1"
-            }
-            return copy(postfix = newPostfix)
+
+        fun incName(): String {
+            val tokens = name
+                .splitToSequence('.')
+                .map { it.toInt() }
+                .toMutableList()
+
+            tokens[tokens.size - 1]++
+
+            return tokens.joinToString(".") { it.toString() }
         }
 
-        val tokens = name
-            .splitToSequence('.')
-            .map { it.toInt() }
-            .toMutableList()
-
-        tokens[tokens.size - 1]++
+        if (postfix != null) {
+            return if (postfix.contains(numbers)) {
+                val number = postfix.replace(characters, "").toInt()
+                val chars = postfix.replace(numbers, "")
+                copy(postfix = "${chars}${number + 1}")
+            } else {
+                copy(
+                    name = incName(),
+                    postfix = "${postfix}1"
+                )
+            }
+        }
 
         return copy(
-            name = tokens.joinToString(".") { it.toString() }
+            name = incName()
         )
     }
 

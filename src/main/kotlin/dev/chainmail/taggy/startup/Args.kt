@@ -41,7 +41,7 @@ class Args(private val options: CommandLine) {
             .longOpt("postfix")
             .required(false)
             .hasArg()
-            .desc("Appends postfix to the latest fetched of provided version. If not provided the program will try to reuse existing postfix from the last tag. If even this last tag has no postfixes it will be omitted. Increment is always preferred on postfix, however if no postfix is found or provided the last number segment from the tag is incremented.")
+            .desc("Appends postfix to the latest fetched of provided version. If not provided the program will try to reuse existing postfix from the last tag. Whenever the last tag contains number it's incremented if and only if the provided postfix matches with the tag's postfix. If even this last tag has no postfixes it will be omitted. Increment is always preferred on postfix, however if no postfix is found or provided the last number segment from the tag is incremented.")
             .build()
 
         private val postfixSeparator: Option = Option.builder()

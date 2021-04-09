@@ -47,6 +47,7 @@ class GitCommand private constructor(
     }
 
     fun getTags(): Sequence<String> {
+        println("Fetching all tags…")
         return commander
             .runCatching { run("git", "tag", "-l") }
             .getOrDefault(emptySequence())
