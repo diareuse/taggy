@@ -25,8 +25,7 @@ class Args(private val options: CommandLine) {
     }
 
     private operator fun OptionAsFlag.getValue(args: Args, property: KProperty<*>): Boolean {
-        val value = args.options.hasOption(option.opt ?: option.longOpt)
-        return value
+        return args.options.hasOption(option.opt ?: option.longOpt)
     }
 
     private operator fun OptionAsRegex.getValue(args: Args, property: KProperty<*>): Regex {

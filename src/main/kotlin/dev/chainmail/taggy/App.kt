@@ -28,7 +28,9 @@ class App private constructor(
 
         val proposedVersion = args.version
         val tag = if (proposedVersion != null) {
-            Tag(proposedVersion, args.postfix, args.postfixSeparator)
+            Tag(proposedVersion, args.postfix, args.postfixSeparator).let {
+                if (it.postfix != null && !it.postfixHasNumbers()) it.inc(incrementName = false) else it
+            }
         } else {
             git.getTags()
                 .map { Tag.from(it, args.postfix, args.postfixSeparator) }

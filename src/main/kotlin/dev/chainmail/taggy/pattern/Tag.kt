@@ -11,9 +11,15 @@ data class Tag(
         .map { it.replace(characters, "").toInt() }
         .reduce { acc, it -> acc * 100 + it }
 
-    operator fun inc(): Tag {
+    fun postfixHasNumbers() = postfix?.contains(numbers) == true
+
+    fun inc(incrementName: Boolean = true): Tag {
 
         fun incName(): String {
+            if (!incrementName) {
+                return name
+            }
+
             val tokens = name
                 .splitToSequence('.')
                 .map { it.toInt() }
