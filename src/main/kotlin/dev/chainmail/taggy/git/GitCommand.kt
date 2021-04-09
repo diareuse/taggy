@@ -29,9 +29,10 @@ class GitCommand private constructor(
     fun createTag(tag: String) {
         commander
             .runCatching { run("git", "tag", "-a", tag, "-m", "via taggy") }
+            .onSuccess { println("Created new tag $tag") }
             .onFailure {
                 if (!args.force) {
-                    it.printStackTrace()
+                    println("Cannot create tag $tag. This tag might exists or no commits are available.")
                     exitProcess(ProcessStatus.DEPENDENCY_ERROR)
                 }
                 commander
@@ -39,6 +40,7 @@ class GitCommand private constructor(
                     .onSuccess { createTag(tag) }
                     .onFailure {
                         it.printStackTrace()
+                        println("Cannot delete tag $tag.")
                         exitProcess(ProcessStatus.DEPENDENCY_ERROR)
                     }
             }
@@ -51,7 +53,10 @@ class GitCommand private constructor(
     }
 
     fun push(tag: String) {
-        if (!args.push) return
+        if (!args.push) {
+            println("Tag $tag processing is finalized.")
+            return
+        }
 
         val targets = args.pushTarget?.split(",") ?: getPushTargets()
         targets
@@ -67,7 +72,7 @@ class GitCommand private constructor(
         }
         commander
             .runCatching { run("git", "push", target, tag) }
-            .onFailure { println("Cannot push $tag to $it, skipping") }
+            .onFailure { println("Cannot push $tag to $it, skipping…") }
             .onSuccess { println("Added $tag to $it") }
     }
 

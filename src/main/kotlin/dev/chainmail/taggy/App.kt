@@ -22,6 +22,7 @@ class App private constructor(
 
     private fun start() {
         if (!git.isGitRepository() && !git.init()) {
+            println("Cannot find or initialize git repository")
             exitProcess(ProcessStatus.NO_GIT)
         }
 
