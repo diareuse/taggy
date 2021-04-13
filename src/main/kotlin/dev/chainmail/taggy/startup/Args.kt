@@ -22,6 +22,7 @@ class Args(private val options: CommandLine) {
 
     private operator fun <T> OptionWithDefault<T>.getValue(args: Args, property: KProperty<*>): T {
         val value = args.options.getOptionValue(option.opt ?: option.longOpt, default?.toString())
+        @Suppress("UNCHECKED_CAST")
         return value?.let(parser) as T
     }
 
@@ -41,7 +42,7 @@ class Args(private val options: CommandLine) {
             .longOpt("postfix")
             .required(false)
             .hasArg()
-            .desc("Appends postfix to the latest fetched of provided version. If not provided the program will try to reuse existing postfix from the last tag. Whenever the last tag contains number it's incremented if and only if the provided postfix matches with the tag's postfix. If even this last tag has no postfixes it will be omitted. Increment is always preferred on postfix, however if no postfix is found or provided the last number segment from the tag is incremented.")
+            .desc("Appends postfix (after) to the latest fetched or provided version. If not provided, the program will try to reuse existing postfix from the last tag. Whenever the last tag contains number it's incremented if and only if the provided postfix matches with the tag's postfix. Even if this last tag has no postfixes it will be omitted. Increment is always preferred on postfix (1.0.0-dev1 -> 1.0.0-dev2), however if no postfix is found or provided the last number segment from the tag is incremented. (1.0.0 -> 1.0.1)")
             .build()
 
         private val postfixSeparator: Option = Option.builder()
@@ -69,13 +70,13 @@ class Args(private val options: CommandLine) {
             .numberOfArgs(Option.UNLIMITED_VALUES)
             .hasArgs()
             .required(false)
-            .desc("Specifies which targets are used in order to push the newly created tags. When used -p and -t in conjunction, the targets must not be empty.")
+            .desc("Specifies which targets are used in order to push the newly created tags. Targets are separated with \",\" with no spaces. When used -p and -t in conjunction, the targets must not be empty.")
             .build()
 
         private val force: Option = Option.builder("f")
             .longOpt("force")
             .required(false)
-            .desc("Forces all tags on all remotes to be deleted and created again. Tags will be deleted locally and on the conflicting remote.")
+            .desc("Forces all tags on all remotes (or push targets) to be deleted and created again. Tags will be deleted locally and on the provided or all remotes. Please note that not clearing tags on all remotes might result in pull conflicts.")
             .build()
 
         private val pattern: Option = Option.builder()
@@ -83,13 +84,13 @@ class Args(private val options: CommandLine) {
             .hasArg()
             .optionalArg(false)
             .required(true)
-            .desc("Specifies java regex pattern for the program to use when listing tags. It bypasses git's implementation since it uses non-robust wildcard implementation. This parameter is required.")
+            .desc("Specifies java regex pattern for the program to use when listing tags. It bypasses git's implementation since it uses non-robust wildcard implementation. This parameter is required. See documentation for examples, visit regex101.com to test your implementation.")
             .build()
 
         private val everywhere: Option = Option.builder()
             .longOpt("everywhere")
             .required(false)
-            .desc("Instructs the program to look in every branch for tags.")
+            .desc("Instructs the program to look for tags in every branch. This might be useful when features are separated by branches and not bound to specific version. If disabled the program will look only into merged tags (ie. current branch).")
             .build()
 
     }
