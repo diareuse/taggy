@@ -123,7 +123,7 @@ class Args(private val options: CommandLine) {
                 help.printHelp(e.option, options)
                 exitProcess(0)
             } catch (e: ParseException) {
-                e.printStackTrace()
+                println(e.message)
                 exitProcess(ProcessStatus.PARSE_ERROR)
             }
             return Args(commandLine)
