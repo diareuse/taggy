@@ -127,7 +127,7 @@ class Args(private val options: CommandLine) {
             val commandLine = try {
                 parser.parse(options, args)
             } catch (e: UnrecognizedOptionException) {
-                help.printHelp(e.option, options)
+                help.printHelp("taggy", options, true)
                 exitProcess(0)
             } catch (e: ParseException) {
                 println(e.message)
