@@ -33,6 +33,7 @@ class App private constructor(
             }
         } else {
             git.getTags()
+                .filter { args.pattern.matches(it) }
                 .map { Tag.from(it, args.postfix, args.postfixSeparator) }
                 .sortedByDescending { it.code }
                 .firstOrNull()
