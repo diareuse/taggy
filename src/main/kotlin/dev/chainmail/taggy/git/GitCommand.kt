@@ -47,9 +47,18 @@ class GitCommand private constructor(
     }
 
     fun getTags(): Sequence<String> {
-        println("Fetching all tags…")
+        if (args.everywhere) {
+            println("Fetching all tags…")
+            return commander
+                .runCatching { run("git", "tag", "-l") }
+                .getOrDefault(emptySequence())
+        }
+
+        println("Fetching current branch…")
         return commander
-            .runCatching { run("git", "tag", "-l") }
+            .runCatching { run("git", "branch", "--show-current") }
+            .mapCatching { it.first().also { b -> println("Fetching tags from $b…") } }
+            .mapCatching { commander.run("git", "tag", "--merged", it) }
             .getOrDefault(emptySequence())
     }
 

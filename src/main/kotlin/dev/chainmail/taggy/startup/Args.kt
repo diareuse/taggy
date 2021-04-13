@@ -14,6 +14,7 @@ class Args(private val options: CommandLine) {
 
     val push by Args.push.withFlag()
     val force by Args.force.withFlag()
+    val everywhere by Args.everywhere.withFlag()
 
     val pushTarget by Args.pushTarget.withDefaultNull()
 
@@ -47,9 +48,7 @@ class Args(private val options: CommandLine) {
             .longOpt("postfix-separator")
             .required(false)
             .hasArg()
-            .desc(
-                "Separator which will be used for parsing appended postfix and appending the postfix when constructing tag. Beware that if you want to change separator, you need to provide the entire ensemble. (ie. postfix, postfix-separator and version)"
-            )
+            .desc("Separator which will be used for parsing appended postfix and appending the postfix when constructing tag. Beware that if you want to change separator, you need to provide the entire ensemble. (ie. postfix, postfix-separator and version)")
             .build()
 
         private val version: Option = Option.builder("v")
@@ -87,6 +86,12 @@ class Args(private val options: CommandLine) {
             .desc("Specifies java regex pattern for the program to use when listing tags. It bypasses git's implementation since it uses non-robust wildcard implementation. This parameter is required.")
             .build()
 
+        private val everywhere: Option = Option.builder()
+            .longOpt("everywhere")
+            .required(false)
+            .desc("Instructs the program to look in every branch for tags.")
+            .build()
+
     }
 
 
@@ -100,6 +105,7 @@ class Args(private val options: CommandLine) {
             addOption(pushTarget)
             addOption(force)
             addOption(pattern)
+            addOption(everywhere)
         }
         private var help: HelpFormatter = HelpFormatter()
         private var parser: CommandLineParser = DefaultParser()
