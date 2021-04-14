@@ -78,12 +78,12 @@ class GitCommand private constructor(
         if (args.force) {
             commander
                 .runCatching { run("git", "push", target, ":$tag") }
-                .onSuccess { println("Removed $tag from $it") }
+                .onSuccess { println("Removed $tag from $target") }
         }
         commander
             .runCatching { run("git", "push", target, tag) }
-            .onFailure { println("Cannot push $tag to $it, skipping…") }
-            .onSuccess { println("Added $tag to $it") }
+            .onFailure { println("Cannot push $tag to $target, skipping…") }
+            .onSuccess { println("Added $tag to $target") }
     }
 
     private fun getPushTargets(): List<String> {
