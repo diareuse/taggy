@@ -10,8 +10,8 @@ to provide the utility with valid regex scheme. It will automatically filter the
 The main requirement is only that the leftmost number has the highest priority and so the leftmost has the least.
 
 ```bash
-alias tagsem="taggy --pattern \"[0-9]+.[0-9]+.[0-9]+\"" # 2.13.46
-alias tagint="taggy --pattern \"$(date +%Y).[0-9]+\"" # 2021.10
+alias tagsem="taggy --pattern \"([0-9]+\.)+[0-9]+(-[a-z]+[0-9]+)?\"" # 2.13.46 || 2.13.46.1 || 2.13.46-dev2
+alias tagint="taggy --pattern \"$(date +%Y)(\.[0-9]+)+(-[a-z]+[0-9]+)?\"" # 2021.10 || 2021.10.1 || 2021.10-dev2
 # add more aliases of your liking
 ```
 
