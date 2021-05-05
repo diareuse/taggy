@@ -1,5 +1,8 @@
 package dev.chainmail.taggy.pattern
 
+import kotlin.math.abs
+import kotlin.math.log10
+
 @Suppress("DataClassPrivateConstructor")
 data class Tag(
     val name: String,
@@ -9,7 +12,15 @@ data class Tag(
 
     val code: Int = name.splitToSequence('.')
         .map { it.replace(characters, "").toInt() }
-        .reduce { acc, it -> acc * 100 + it }
+        .reduce { acc, it ->
+            val multiplier = when (it) {
+                // just multiply the acc value by 10
+                0 -> 1.0
+                // calculate number of digits in this number and multiply it by 10
+                else -> log10(abs(it).toDouble()) + 1
+            }.toInt() * 10
+            acc * multiplier + it
+        }
 
     fun postfixHasNumbers() = postfix?.contains(numbers) == true
 
