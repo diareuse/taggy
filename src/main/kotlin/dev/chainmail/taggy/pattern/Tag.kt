@@ -1,7 +1,7 @@
 package dev.chainmail.taggy.pattern
 
-import kotlin.math.abs
-import kotlin.math.log10
+import dev.chainmail.taggy.characters
+import dev.chainmail.taggy.numbers
 
 @Suppress("DataClassPrivateConstructor")
 data class Tag(
@@ -10,17 +10,7 @@ data class Tag(
     val separator: String
 ) {
 
-    val code: Int = name.splitToSequence('.')
-        .map { it.replace(characters, "").toInt() }
-        .reduce { acc, it ->
-            val multiplier = when (it) {
-                // just multiply the acc value by 10
-                0 -> 1.0
-                // calculate number of digits in this number and multiply it by 10
-                else -> log10(abs(it).toDouble()) + 1
-            }.toInt() * 10
-            acc * multiplier + it
-        }
+    val code = VersionCode(name, postfix)
 
     fun postfixHasNumbers() = postfix?.contains(numbers) == true
 
@@ -70,9 +60,6 @@ data class Tag(
     }
 
     companion object {
-
-        private val characters = Regex("[a-zA-Z]+")
-        private val numbers = Regex("[0-9]+")
 
         fun from(tag: String, postfix: String?, separator: String): Tag {
             if (
