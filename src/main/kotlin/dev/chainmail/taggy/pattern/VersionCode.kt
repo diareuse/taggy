@@ -50,4 +50,10 @@ class VersionCode(
         return compareTo(other) == 0
     }
 
+    override fun hashCode(): Int {
+        var result = segments.hashCode()
+        result = 31 * result + (revision ?: 0)
+        return result
+    }
+
 }
