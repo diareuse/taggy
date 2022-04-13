@@ -6,6 +6,7 @@ dependencies {
 
     compileOnly project(":provider")
 
+    testImplementation project(":provider")
     testImplementation project(":tooling-test")
 
 }
