@@ -4,4 +4,8 @@ plugins {
 
 dependencies {
 
+    compileOnly project(":provider")
+
+    testImplementation project(":tooling-test")
+
 }

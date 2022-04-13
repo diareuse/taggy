@@ -1,4 +1,5 @@
 rootProject.name = "taggy"
 
 include ":app"
+include ":tooling-test"
 include ":provider", ":provider-git"

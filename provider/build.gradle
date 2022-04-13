@@ -4,6 +4,6 @@ plugins {
 
 dependencies {
 
-    compileOnly project(":provider-git")
+    testImplementation project(":tooling-test")
 
 }
