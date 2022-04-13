@@ -1,0 +1,9 @@
+plugins {
+    id "convention-library"
+}
+
+dependencies {
+
+    compileOnly project(":provider-git")
+
+}

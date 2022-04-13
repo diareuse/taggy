@@ -1,0 +1,14 @@
+plugins {
+    id "convention-app"
+    id "convention-min"
+}
+
+application {
+    mainClassName = "taggy.App"
+}
+
+dependencies {
+
+    implementation 'commons-cli:commons-cli:1.5.0'
+
+}

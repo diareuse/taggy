@@ -1,0 +1,36 @@
+plugins {
+    id 'base'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+group rootProject.group
+version rootProject.version
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = '17'
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = '17'
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
+    testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
+}
