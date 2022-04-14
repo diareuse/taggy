@@ -2,13 +2,12 @@
 
 package taggy
 
-import taggy.startup.Args
+import taggy.composition.*
 
 fun main(args: Array<String>) {
-    val argsBuilder = Args.Builder()
-        .build(args)
-
-    AppStarter.Builder()
-        .setArgs(argsBuilder)
-        .start()
+    val options = OptionsModuleDefault()
+    val arguments = ArgumentsModuleDefault(options)
+    val provider = ProviderModuleDefault()
+    val gitProvider = GitProviderModuleDefault(provider)
+    val semver = SemverModuleDefault()
 }
