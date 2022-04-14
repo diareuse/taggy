@@ -6,7 +6,7 @@ class SemanticSegmentsAdapterDefault : SemanticSegmentsAdapter {
         val segments = tag.name.splitToSequence('.').map { it.toLong() }.toList()
         return SemanticSegments(
             segments = segments,
-            revision = tag.affix?.let(::adaptRevision)
+            revision = tag.revision
         )
     }
 

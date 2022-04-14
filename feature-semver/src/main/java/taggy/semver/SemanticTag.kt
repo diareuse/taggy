@@ -2,20 +2,25 @@ package taggy.semver
 
 data class SemanticTag(
     val name: String,
-    val separator: String? = null,
-    val affix: String? = null
+    val separator: String = "-",
+    val type: String? = null,
+    val revision: Long? = null
 ) {
+
+    init {
+        if (revision != null && type == null)
+            throw IllegalStateException("${super.toString()} has revision, but not type")
+    }
 
     override fun toString() = buildString {
         append(name)
 
-        if (affix == null)
+        if (revision == null)
             return@buildString
-        if (separator == null)
-            throw IllegalStateException("${super.toString()} has an affix, but not a separator")
 
         append(separator)
-        append(affix)
+        append(type)
+        append(revision)
     }
 
 }
