@@ -10,4 +10,8 @@ fun main(args: Array<String>) {
     val provider = ProviderModuleDefault()
     val gitProvider = GitProviderModuleDefault(provider)
     val semver = SemverModuleDefault()
+
+    val argus = arguments.getArgumentsFactory().create(args)
+    val service = gitProvider.getService(argus)
+
 }
