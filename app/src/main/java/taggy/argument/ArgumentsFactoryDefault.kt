@@ -13,7 +13,6 @@ class ArgumentsFactoryDefault(
     private val force: Option,
     @Deprecated("")
     private val everywhere: Option,
-    @Deprecated("")
     private val pushTarget: Option,
     private val pattern: Option
 ) : ArgumentsFactory {

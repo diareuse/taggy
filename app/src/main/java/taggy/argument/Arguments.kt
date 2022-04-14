@@ -8,7 +8,6 @@ data class Arguments(
     val force: Boolean,
     @Deprecated("")
     val everywhere: Boolean,
-    @Deprecated("")
     val pushTarget: List<String>,
     val pattern: Regex
 )

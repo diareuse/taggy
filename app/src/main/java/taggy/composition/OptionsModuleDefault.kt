@@ -48,7 +48,7 @@ class OptionsModuleDefault : OptionsModule {
         .numberOfArgs(Option.UNLIMITED_VALUES)
         .hasArgs()
         .required(false)
-        .desc("[DEPRECATED] Specifies which targets are used in order to push the newly created tags. Targets are separated with \",\" with no spaces. When used -p and -t in conjunction, the targets must not be empty.")
+        .desc("Specifies which targets are used in order to push the newly created tags. Targets are separated with \",\" with no spaces. When used -p and -t in conjunction, the targets must not be empty.")
         .build()
 
     override fun getPattern(): Option = Option.builder()
