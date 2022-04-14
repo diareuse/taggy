@@ -36,4 +36,12 @@ internal class SemanticSegmentsAdapterDefaultTest {
         assert(result.revision == expected) { "Expected revision to be equal to $expected instead was ${result.revision}" }
     }
 
+    @Test
+    fun `adapt adds zero revision when supplied with type`() {
+        val tag = SemanticTag("1", "-", "alpha", null)
+        val expected = 0L
+        val result = adapter.adapt(tag)
+        assert(result.revision == expected) { "Expected revision to be equal to $expected instead was ${result.revision}" }
+    }
+
 }

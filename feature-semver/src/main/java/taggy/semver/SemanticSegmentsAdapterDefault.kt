@@ -6,18 +6,11 @@ class SemanticSegmentsAdapterDefault : SemanticSegmentsAdapter {
         val segments = tag.name.splitToSequence('.').map { it.toLong() }.toList()
         return SemanticSegments(
             segments = segments,
-            revision = tag.revision
+            revision = when (tag.type) {
+                null -> null
+                else -> tag.revision ?: 0
+            }
         )
-    }
-
-    private fun adaptRevision(affix: String): Long? {
-        return Numbers.findAll(affix).lastOrNull()?.value?.toLongOrNull()
-    }
-
-    companion object {
-
-        private val Numbers = Regex("(\\d)+")
-
     }
 
 }
