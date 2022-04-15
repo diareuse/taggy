@@ -13,14 +13,14 @@ jacoco {
 
 compileKotlin {
     kotlinOptions {
-        jvmTarget = '18'
+        jvmTarget = '17'
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = '18'
+        jvmTarget = '17'
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 }

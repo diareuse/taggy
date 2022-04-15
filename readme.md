@@ -10,7 +10,20 @@
     <a href="https://www.codacy.com/gh/diareuse/taggy/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=diareuse/taggy&amp;utm_campaign=Badge_Grade">
         <img src="https://app.codacy.com/project/badge/Grade/a30de5da7cc943a899a171eabd99ecc8"/>
     </a>
+    <a href="https://www.codacy.com/gh/diareuse/taggy/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=diareuse/taggy&amp;utm_campaign=Badge_Coverage">
+        <img src="https://app.codacy.com/project/badge/Coverage/a30de5da7cc943a899a171eabd99ecc8"/>
+    </a>
 </p>
+<p align="center">
+    <a href="https://github.com/diareuse/taggy/actions/workflows/coverage-report.yml">
+        <img src="https://github.com/diareuse/taggy/workflows/Coverage%20Report/badge.svg"/>
+    </a>
+    <a href="https://github.com/diareuse/taggy/actions/workflows/build-artifacts.yml">
+        <img src="https://github.com/diareuse/taggy/workflows/Build%20Artifacts%20(Native%20Images)/badge.svg"/>
+    </a>
+</p>
+
+---
 
 ## Patterns
 

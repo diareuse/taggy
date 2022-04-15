@@ -1,0 +1,62 @@
+name: Build Artifacts (Native Images)
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Artifact for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, windows-latest, ubuntu-latest ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          version: '22.0.0.2'
+          java-version: '17'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        with:
+          arguments: shadowJar
+      - name: Build Native Image
+        run: native-image --no-fallback -cp taggy.App -jar app/build/libs/app.jar taggy
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: taggy-${{ matrix.os }}
+          path: taggy*
+          retention-days: 1
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: taggy-macos-latest
+          path: macos
+      - uses: actions/download-artifact@v3
+        with:
+          name: taggy-ubuntu-latest
+          path: ubuntu
+      - uses: actions/download-artifact@v3
+        with:
+          name: taggy-windows-latest
+          path: windows
+      - name: Rename Files
+        run: |
+          mv macos/taggy macos/taggy-mac
+          mv ubuntu/taggy ubuntu/taggy-linux
+          mv windows/taggy.exe windows/taggy-windows.exe
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            macos/taggy
+            ubuntu/taggy
+            windows/taggy.exe
