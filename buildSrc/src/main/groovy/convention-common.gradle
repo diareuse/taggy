@@ -1,27 +1,40 @@
 plugins {
     id 'base'
+    id 'jacoco'
     id 'org.jetbrains.kotlin.jvm'
 }
 
 group rootProject.group
 version rootProject.version
 
+jacoco {
+    toolVersion = "0.8.8"
+}
+
 compileKotlin {
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '18'
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '18'
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+    }
 }
 
 repositories {
@@ -29,6 +42,6 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.10"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.20"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.0"
 }
