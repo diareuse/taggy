@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
+import kotlin.test.assertSame
+import kotlin.test.expect
 
 internal class SemanticTagWrapperDefaultTest {
 
@@ -24,15 +26,15 @@ internal class SemanticTagWrapperDefaultTest {
     @Test
     fun `current returns same instance`() {
         val current = wrapper.current()
-        assert(current === tag) { "Expected current value to be same instance as $tag (${tag.hashCode()}) instead was $current (${current.hashCode()})" }
+        assertSame(tag, current)
     }
 
     @Test
     fun `next returns incremented name`() {
         whenever(adapter.adapt(tag)).thenReturn(SemanticSegments(listOf(1, 0, 0), null))
-        val result = wrapper.next()
-        val expected = "1.0.1"
-        assert(result.toString() == expected) { "Expected result to be equal to $expected instead was $result" }
+        expect("1.0.1") {
+            wrapper.next().toString()
+        }
     }
 
     @Test
@@ -40,9 +42,9 @@ internal class SemanticTagWrapperDefaultTest {
         tag = tag.copy(type = "alpha", revision = 1)
         wrapper = SemanticTagWrapperDefault(tag, adapter)
         whenever(adapter.adapt(tag)).thenReturn(SemanticSegments(listOf(1, 0, 0), 1))
-        val result = wrapper.next()
-        val expected = "1.0.0-alpha2"
-        assert(result.toString() == expected) { "Expected result to be equal to $expected instead was $result" }
+        expect("1.0.0-alpha2") {
+            wrapper.next().toString()
+        }
     }
 
 }

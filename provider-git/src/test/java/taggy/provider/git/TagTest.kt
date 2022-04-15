@@ -1,6 +1,8 @@
 package taggy.provider.git
 
 import org.junit.jupiter.api.Test
+import kotlin.test.assertNotSame
+import kotlin.test.expect
 
 internal class TagTest {
 
@@ -8,14 +10,14 @@ internal class TagTest {
     fun `inverse is not equal`() {
         val tag = Tag("foo")
         val inverse = tag.inverse()
-        assert(inverse != tag) { "Expected to be not equal instead $tag was equal to $inverse" }
+        assertNotSame(tag, inverse)
     }
 
     @Test
     fun `inverse adds colon`() {
         val tag = Tag("foo").inverse()
         val expected = ":foo"
-        assert(tag.name == expected) { "Expected to be $expected instead was ${tag.name}" }
+        expect(expected) { tag.name }
     }
 
 }

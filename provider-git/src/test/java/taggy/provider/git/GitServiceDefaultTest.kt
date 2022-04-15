@@ -9,6 +9,7 @@ import org.mockito.kotlin.whenever
 import taggy.provider.Console
 import taggy.provider.ConsoleOutput
 import taggy.test.TestSuccessful
+import kotlin.test.assertContentEquals
 
 internal class GitServiceDefaultTest {
 
@@ -47,17 +48,13 @@ internal class GitServiceDefaultTest {
     }
 
     @Test
-    fun `getRemotes returns remote`() {
+    fun `getRemotes is successful`() {
         val expected = listOf(Remote("foo"), Remote("bar"))
         whenever(console.run("git", "remote")).thenReturn(Result.success(output))
         whenever(adapter.remote(output)).thenReturn(expected)
 
-        val result = service.getRemotes()
-        assert(result.isSuccess) { "Expected to be success instead was $result" }
-
-        val list = result.getOrThrow()
-        assert(list.containsAll(expected)) { "Expected to contain $expected instead was $list" }
-        assert(expected.containsAll(list)) { "Expected to contain $expected instead was $list" }
+        val list = service.getRemotes().getOrThrow()
+        assertContentEquals(expected, list)
     }
 
     @Test
@@ -74,12 +71,8 @@ internal class GitServiceDefaultTest {
         whenever(console.run("git", "tag", "-l")).thenReturn(Result.success(output))
         whenever(adapter.tag(output)).thenReturn(expected)
 
-        val result = service.getTags()
-        assert(result.isSuccess) { "Expected to be success instead was $result" }
-
-        val list = result.getOrThrow()
-        assert(list.containsAll(expected)) { "Expected to contain $expected instead was $list" }
-        assert(expected.containsAll(list)) { "Expected to contain $expected instead was $list" }
+        val list = service.getTags().getOrThrow()
+        assertContentEquals(expected, list)
     }
 
     @Test

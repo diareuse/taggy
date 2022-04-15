@@ -2,6 +2,7 @@ package taggy.semver
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.test.expect
 
 internal class SemanticSegmentsAdapterDefaultTest {
 
@@ -14,34 +15,30 @@ internal class SemanticSegmentsAdapterDefaultTest {
 
     @Test
     fun `adapt splits segments`() {
-        val tag = SemanticTag("1.103.50")
-        val expected = listOf(1L, 103L, 50L)
-        val result = adapter.adapt(tag)
-        assert(result.segments == expected) { "Expected segments to be equal to $expected instead were ${result.segments}" }
+        expect(listOf(1L, 103L, 50L)) {
+            adapter.adapt(SemanticTag("1.103.50")).segments
+        }
     }
 
     @Test
     fun `adapt extracts revision`() {
-        val tag = SemanticTag("1", "-", "alpha", 5L)
-        val expected = 5L
-        val result = adapter.adapt(tag)
-        assert(result.revision == expected) { "Expected revision to be equal to $expected instead was ${result.revision}" }
+        expect(5L) {
+            adapter.adapt(SemanticTag("1", "-", "alpha", 5L)).revision
+        }
     }
 
     @Test
     fun `adapt extracts last revision`() {
-        val tag = SemanticTag("1", "-", "alpha5-test", 1L)
-        val expected = 1L
-        val result = adapter.adapt(tag)
-        assert(result.revision == expected) { "Expected revision to be equal to $expected instead was ${result.revision}" }
+        expect(1L) {
+            adapter.adapt(SemanticTag("1", "-", "alpha5-test", 1L)).revision
+        }
     }
 
     @Test
     fun `adapt adds zero revision when supplied with type`() {
-        val tag = SemanticTag("1", "-", "alpha", null)
-        val expected = 0L
-        val result = adapter.adapt(tag)
-        assert(result.revision == expected) { "Expected revision to be equal to $expected instead was ${result.revision}" }
+        expect(0L) {
+            adapter.adapt(SemanticTag("1", "-", "alpha", null)).revision
+        }
     }
 
 }

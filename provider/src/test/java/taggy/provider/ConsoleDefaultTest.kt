@@ -9,6 +9,9 @@ import org.mockito.kotlin.whenever
 import taggy.test.TestSuccessful
 import java.io.ByteArrayInputStream
 import java.io.InputStream
+import kotlin.test.assertContentEquals
+import kotlin.test.assertNotNull
+import kotlin.test.expect
 
 internal class ConsoleDefaultTest {
 
@@ -33,10 +36,9 @@ internal class ConsoleDefaultTest {
     }
 
     @Test
-    fun `run executes`() {
-        val result = console.run()
-        assert(result.isSuccess) {
-            "Result is expected to be success, instead was ${result.exceptionOrNull()}"
+    fun `run executes without input`() {
+        expect(Result.success(emptyList())) {
+            console.run().map { it.lines.toList() }
         }
     }
 
@@ -51,11 +53,8 @@ internal class ConsoleDefaultTest {
 
         val result = console.run().getOrNull()
 
-        require(result != null) { "Result is expected to be not null" }
-
-        val lines = result.lines.toList()
-        assert(lines.containsAll(expectedOutput)) { "Expected to contain $expectedOutput instead was $lines" }
-        assert(expectedOutput.containsAll(lines)) { "Expected to contain $expectedOutput instead was $lines" }
+        assertNotNull(result)
+        assertContentEquals(expectedOutput, result.lines.toList())
     }
 
     @Test
@@ -69,8 +68,9 @@ internal class ConsoleDefaultTest {
     @Test
     fun `run returns failure`() {
         whenever(process.waitFor()).thenReturn(1)
-        val result = console.run()
-        assert(result.isFailure) { "Expected to be failure instead was ${result.getOrThrow()}" }
+        expect(Result.failure(ProcessException(1))) {
+            console.run()
+        }
     }
 
 }

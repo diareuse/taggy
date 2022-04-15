@@ -9,6 +9,7 @@ import org.mockito.kotlin.whenever
 import taggy.provider.Console
 import taggy.provider.ConsoleOutput
 import taggy.test.TestSuccessful
+import kotlin.test.expect
 
 internal class GitServiceFetchTest {
 
@@ -40,8 +41,7 @@ internal class GitServiceFetchTest {
         whenever(console.run("git", "fetch", "--tags")).thenReturn(Result.success(ConsoleOutput(emptySequence())))
         whenever(source.getTags()).thenReturn(expected)
 
-        val result = service.getTags()
-        assert(result == expected) { "Expected result to be $expected instead was $result" }
+        expect(expected) { service.getTags() }
     }
 
 }

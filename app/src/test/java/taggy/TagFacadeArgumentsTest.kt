@@ -8,6 +8,8 @@ import org.mockito.kotlin.whenever
 import taggy.argument.Arguments
 import taggy.provider.git.Remote
 import taggy.semver.SemanticTag
+import kotlin.test.assertContentEquals
+import kotlin.test.assertSame
 
 internal class TagFacadeArgumentsTest {
 
@@ -37,17 +39,14 @@ internal class TagFacadeArgumentsTest {
 
     @Test
     fun createTag() {
-        val expected = expectTag
-        val result = facade.createTag()
-        assert(result === expected) { "Expected to be same instance as $expected (${expected.hashCode()}) instead was $result (${result.hashCode()})" }
+        assertSame(expectTag, facade.createTag())
     }
 
     @Test
     fun getRemotes() {
         val expected = listOf(expectOrigin)
         val result = facade.getRemotes()
-        assert(expected.containsAll(result)) { "Expected to contain all elements from $expected instead was $result" }
-        assert(result.containsAll(expected)) { "Expected to contain all elements from $expected instead was $result" }
+        assertContentEquals(expected, result)
     }
 
 }

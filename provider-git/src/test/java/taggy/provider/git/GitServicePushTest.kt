@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
+import kotlin.test.expect
 
 internal class GitServicePushTest {
 
@@ -26,9 +27,7 @@ internal class GitServicePushTest {
     fun createTag() {
         val tag = Tag("foo")
         whenever(source.pushTag(remote, tag)).thenReturn(Result.success(Unit))
-
-        val result = service.createTag(tag)
-        assert(result.isSuccess) { "Expected to be success instead was $result" }
+        expect(Result.success(Unit)) { service.createTag(tag) }
     }
 
 }
