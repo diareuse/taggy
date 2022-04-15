@@ -1,0 +1,9 @@
+plugins {
+    id "convention-library"
+}
+
+dependencies {
+
+    testImplementation project(":tooling-test")
+
+}

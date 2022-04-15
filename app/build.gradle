@@ -10,6 +10,7 @@ application {
 dependencies {
 
     implementation project(":feature-semver")
+    implementation project(":feature-logging")
     implementation project(":provider")
     implementation project(":provider-git")
 

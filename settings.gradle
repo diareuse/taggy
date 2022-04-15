@@ -1,6 +1,6 @@
 rootProject.name = "taggy"
 
 include ":app"
-include ":feature-semver"
+include ":feature-semver", ":feature-logging"
 include ":tooling-test"
 include ":provider", ":provider-git"
