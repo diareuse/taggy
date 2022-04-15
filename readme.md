@@ -1,6 +1,16 @@
-# Taggy!
+<p align="center">
+  <img src="art/logo.png" width="128px" />
+</p>
 
-_Make your tagging easier and predictable_
+<h1 align="center">Taggy</h1>
+
+<p align="center">Make your tagging easier and predictable</p>
+
+<p align="center">
+    <a href="https://www.codacy.com/gh/diareuse/taggy/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=diareuse/taggy&amp;utm_campaign=Badge_Grade">
+        <img src="https://app.codacy.com/project/badge/Grade/a30de5da7cc943a899a171eabd99ecc8"/>
+    </a>
+</p>
 
 ## Patterns
 
@@ -55,7 +65,7 @@ Given last tag is `1.1.1`
 tagsem -a test --postfix-separator="/" # -> creates 1.1.2/test1
 ```
 
-### Push!
+### Push
 
 Given last tag is `1.1.2-test1`
 
@@ -64,8 +74,11 @@ tagsem -p           # -> pushes 1.1.2-test2 to all remotes
 tagsem -p -t origin # -> pushes 1.1.2-test3 to origin
 ```
 
-### Conflicting tag?
+### Conflicting tag
 
 ```bash
 tagsem -v 1.1.2 -a test3 -p -f # -> deletes references to 1.1.2-test3, creates 1.1.2-test3 and pushes to all remotes
 ```
+
+<a href="https://www.flaticon.com/free-icons/dog-tag" title="dog tag icons">Dog tag icons created by Nikita Golubev -
+Flaticon</a>
