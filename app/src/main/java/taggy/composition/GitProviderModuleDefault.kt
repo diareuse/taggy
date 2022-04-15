@@ -17,8 +17,6 @@ class GitProviderModuleDefault(
         var service: GitService
         service = GitServiceDefault(console, getConsoleAdapter())
         service = GitServiceFetch(service, console)
-        if (arguments.push)
-            service = GitServicePush(service)
         if (arguments.force)
             service = GitServiceForce(service)
         service = GitServiceLogging(service, log.getLogger())
