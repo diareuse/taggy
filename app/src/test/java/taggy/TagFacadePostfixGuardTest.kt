@@ -18,13 +18,21 @@ internal class TagFacadePostfixGuardTest {
     @BeforeEach
     fun setUp() {
         MockitoAnnotations.openMocks(this).close()
-        facade = TagFacadePostfixGuard(source, arguments(postfix = "beta"))
         whenever(source.createTag()).thenReturn(SemanticTag("1.0.0", type = "alpha", revision = 10))
     }
 
     @Test
-    fun createTag() {
+    fun `createTag clears revision`() {
+        facade = TagFacadePostfixGuard(source, arguments(postfix = "beta"))
         expect(SemanticTag("1.0.0", type = "beta", revision = null)) {
+            facade.createTag()
+        }
+    }
+
+    @Test
+    fun `createTag keeps revision`() {
+        facade = TagFacadePostfixGuard(source, arguments())
+        expect(SemanticTag("1.0.0", type = "alpha", revision = 10)) {
             facade.createTag()
         }
     }

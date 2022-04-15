@@ -10,10 +10,12 @@ class TagFacadePostfixGuard(
 
     override fun createTag(): SemanticTag {
         val original = source.createTag()
+        val separator = arguments.postfixSeparator
+        val postfix = arguments.postfix
         return original.copy(
-            separator = arguments.postfixSeparator,
-            type = arguments.postfix,
-            revision = original.revision.takeUnless { arguments.postfix != original.type }
+            separator = separator,
+            type = postfix ?: original.type,
+            revision = original.revision.takeUnless { postfix != null && postfix != original.type }
         )
     }
 
