@@ -13,12 +13,14 @@ class TagAdapterDefault(
             postfix.substring(0 until postfix.lastIndexOf(revision.toString()))
         } else {
             postfix
-        }
+        }?.takeUnless { it.isBlank() }
         return SemanticTag(version, separator, affix, revision)
     }
 
     override fun adapt(tag: Tag): SemanticTag {
         val parts = tag.name.split(separator)
+        if (parts.size == 1)
+            return adapt(parts.first(), null)
         return adapt(parts[0], parts.takeLast(parts.size - 1).joinToString(separator))
     }
 

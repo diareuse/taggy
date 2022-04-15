@@ -24,6 +24,13 @@ internal class TagAdapterDefaultTest {
     }
 
     @Test
+    fun `adapt string empty postfix`() {
+        expect(SemanticTag("1.0.0", separator, null, null)) {
+            adapter.adapt("1.0.0", "")
+        }
+    }
+
+    @Test
     fun `adapt string with postfix`() {
         expect(SemanticTag("1.0.0", separator, "test", 25)) {
             adapter.adapt("1.0.0", "test25")
@@ -41,6 +48,13 @@ internal class TagAdapterDefaultTest {
     fun `adapt git tag`() {
         expect(SemanticTag("1.0.0", separator, "test", 25)) {
             adapter.adapt(Tag("1.0.0${separator}test25"))
+        }
+    }
+
+    @Test
+    fun `adapt git tag without suffix`() {
+        expect(SemanticTag("1.0.0")) {
+            adapter.adapt(Tag("1.0.0"))
         }
     }
 
