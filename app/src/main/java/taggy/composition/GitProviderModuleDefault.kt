@@ -4,7 +4,8 @@ import taggy.argument.Arguments
 import taggy.provider.git.*
 
 class GitProviderModuleDefault(
-    private val provider: ProviderModule
+    private val provider: ProviderModule,
+    private val log: LogModule
 ) : GitProviderModule {
 
     override fun getConsoleAdapter(): GitConsoleAdapter {
@@ -20,6 +21,7 @@ class GitProviderModuleDefault(
             service = GitServicePush(service)
         if (arguments.force)
             service = GitServiceForce(service)
+        service = GitServiceLogging(service, log.getLogger())
         return service
     }
 
