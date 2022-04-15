@@ -20,8 +20,14 @@ class GitServiceThrowsUnlessDeleted(service: GitService) : GitService by service
 
     private val deletedRemoteTags = mutableSetOf<String>()
     override fun pushTag(remote: Remote, tag: Tag): Result<Unit> {
-        if (!tag.name.startsWith(":") && tag.name in deletedRemoteTags)
+        if (tag.name.startsWith(":")) {
+            deletedRemoteTags += tag.name
+            deletedRemoteTags += tag.name.takeLast(tag.name.length - 1)
+        }
+
+        if (tag.name in deletedRemoteTags)
             return Result.success(Unit)
+
         return Result.failure(Throwable())
     }
 

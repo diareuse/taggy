@@ -29,7 +29,7 @@ internal class GitServiceForceTest {
     @Test
     fun pushTag() {
         val tag = Tag("foo")
-        expect(Result.success(Unit)) { service.createTag(tag) }
+        expect(Result.success(Unit)) { service.pushTag(Remote("origin"), tag) }
     }
 
 }
