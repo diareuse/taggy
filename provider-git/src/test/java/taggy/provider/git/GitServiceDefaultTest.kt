@@ -2,14 +2,13 @@ package taggy.provider.git
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
 import taggy.provider.Console
 import taggy.provider.ConsoleOutput
-import taggy.test.TestSuccessful
 import kotlin.test.assertContentEquals
+import kotlin.test.expect
 
 internal class GitServiceDefaultTest {
 
@@ -33,16 +32,16 @@ internal class GitServiceDefaultTest {
 
     @Test
     fun initialize() {
-        whenever(console.run("git", "init")).thenThrow(TestSuccessful())
-        assertThrows<TestSuccessful> {
+        whenever(console.run("git", "init")).thenReturn(emptyResult())
+        expect(Result.success(Unit)) {
             service.initialize()
         }
     }
 
     @Test
     fun getRemotes() {
-        whenever(console.run("git", "remote")).thenThrow(TestSuccessful())
-        assertThrows<TestSuccessful> {
+        whenever(console.run("git", "remote")).thenReturn(emptyResult())
+        expect(Result.success(emptyList())) {
             service.getRemotes()
         }
     }
@@ -59,8 +58,8 @@ internal class GitServiceDefaultTest {
 
     @Test
     fun getTags() {
-        whenever(console.run("git", "tag", "-l")).thenThrow(TestSuccessful())
-        assertThrows<TestSuccessful> {
+        whenever(console.run("git", "tag", "-l")).thenReturn(emptyResult())
+        expect(Result.success(emptyList())) {
             service.getTags()
         }
     }
@@ -79,8 +78,8 @@ internal class GitServiceDefaultTest {
     fun createTag() {
         val tag = Tag("1.0.0")
         whenever(console.run("git", "tag", "-a", "1.0.0", "-m", "via github.com/diareuse/taggy"))
-            .thenThrow(TestSuccessful())
-        assertThrows<TestSuccessful> {
+            .thenReturn(emptyResult())
+        expect(Result.success(Unit)) {
             service.createTag(tag)
         }
     }
@@ -88,8 +87,8 @@ internal class GitServiceDefaultTest {
     @Test
     fun deleteTag() {
         val tag = Tag("1.0.0")
-        whenever(console.run("git", "tag", "--delete", "1.0.0")).thenThrow(TestSuccessful())
-        assertThrows<TestSuccessful> {
+        whenever(console.run("git", "tag", "--delete", "1.0.0")).thenReturn(emptyResult())
+        expect(Result.success(Unit)) {
             service.deleteTag(tag)
         }
     }
@@ -98,10 +97,14 @@ internal class GitServiceDefaultTest {
     fun pushTag() {
         val remote = Remote("origin")
         val tag = Tag("1.0.0")
-        whenever(console.run("git", "push", "origin", "1.0.0")).thenThrow(TestSuccessful())
-        assertThrows<TestSuccessful> {
+        whenever(console.run("git", "push", "origin", "1.0.0")).thenReturn(emptyResult())
+        expect(Result.success(Unit)) {
             service.pushTag(remote, tag)
         }
     }
+
+    // ---
+
+    private fun emptyResult() = Result.success(ConsoleOutput(emptySequence()))
 
 }
