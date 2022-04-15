@@ -12,6 +12,7 @@ internal fun Runtime.execAwait(args: Array<out String>): Result<Process> {
 
 internal fun Process.asSequence() = sequence {
     inputStream.bufferedReader().use {
+        if (!it.ready()) return@sequence
         var line: String? = it.readLine()
         while (line != null) {
             yield(line)
