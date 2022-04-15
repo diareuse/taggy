@@ -15,7 +15,7 @@ class TagFacadeGit(
         .filter { regex.matches(it.name) }
         .map(adapter::adapt)
         .sortedWith(comparator)
-        .first()
+        .last()
 
     override fun getRemotes() = git.getRemotes().getOrThrow()
 
