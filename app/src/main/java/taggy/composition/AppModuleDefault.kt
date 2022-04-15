@@ -31,6 +31,7 @@ class AppModuleDefault(
         var facadeGit: TagFacade
         facadeGit = TagFacadeGit(git, semver.getTagComparator(), adapterTag, arguments.pattern)
         facadeGit = TagFacadeLogging(facadeGit, logger, "Git")
+        facadeGit = TagFacadePostfixGuard(facadeGit, arguments)
         facadeGit = TagFacadeIncrement(facadeGit, semver.getTagWrapper())
         facadeGit = TagFacadeLogging(facadeGit, logger, "Increment")
         facadeGit = TagFacadeRecover(facadeGit, facadeDefault)

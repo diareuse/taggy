@@ -57,6 +57,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            macos/taggy
-            ubuntu/taggy
-            windows/taggy.exe
+            macos/taggy-mac
+            ubuntu/taggy-linux
+            windows/taggy-windows.exe
