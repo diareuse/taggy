@@ -9,10 +9,10 @@ data class SemanticTag(
 
     init {
         if (revision != null && type == null)
-            throw IllegalStateException("${super.toString()} has revision, but not type")
+            throw IllegalStateException("${toString()} has revision, but not type")
     }
 
-    override fun toString() = buildString {
+    fun asString() = buildString {
         append(name)
 
         if (revision == null)

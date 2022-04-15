@@ -23,7 +23,7 @@ class TagAdapterDefault(
     }
 
     override fun adapt(tag: SemanticTag): Tag {
-        return Tag(tag.toString())
+        return Tag(tag.asString())
     }
 
     private fun adaptRevision(affix: String): Long? {

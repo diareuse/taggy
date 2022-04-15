@@ -33,7 +33,7 @@ internal class SemanticTagWrapperDefaultTest {
     fun `next returns incremented name`() {
         whenever(adapter.adapt(tag)).thenReturn(SemanticSegments(listOf(1, 0, 0), null))
         expect("1.0.1") {
-            wrapper.next().toString()
+            wrapper.next().asString()
         }
     }
 
@@ -43,7 +43,7 @@ internal class SemanticTagWrapperDefaultTest {
         wrapper = SemanticTagWrapperDefault(tag, adapter)
         whenever(adapter.adapt(tag)).thenReturn(SemanticSegments(listOf(1, 0, 0), 1))
         expect("1.0.0-alpha2") {
-            wrapper.next().toString()
+            wrapper.next().asString()
         }
     }
 
