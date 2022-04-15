@@ -7,7 +7,7 @@ import java.util.logging.Logger
 
 class LoggerColored(
     handler: Handler
-) : Logger("taggy.logger.colored", null) {
+) : Logger("taggy", null) {
 
     init {
         addHandler(handler)
