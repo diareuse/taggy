@@ -10,7 +10,8 @@ object Compositor {
         val provider = ProviderModuleDefault()
         val git = GitProviderModuleDefault(provider)
         val semver = SemverModuleDefault()
-        val app = AppModuleDefault(arguments, git, semver)
+        val log = LogModuleDefault()
+        val app = AppModuleDefault(arguments, git, semver, log)
         return Taggy(app.getTagFacade())
     }
 
