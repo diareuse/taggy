@@ -4,7 +4,7 @@ import taggy.Taggy
 
 object Compositor {
 
-    fun getTaggy(args: Array<String>): Taggy {
+    fun getTaggy(args: Array<out String>): Taggy {
         val options = OptionsModuleDefault()
         val arguments = ArgumentsModuleDefault(options).getArgumentsFactory().create(args)
         val provider = ProviderModuleDefault()
