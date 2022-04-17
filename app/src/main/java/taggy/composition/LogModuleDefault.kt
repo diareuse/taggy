@@ -10,7 +10,9 @@ import java.util.logging.Logger
 class LogModuleDefault : LogModule {
 
     override fun getLogger(): Logger {
-        return LoggerColored(getHandler())
+        return LoggerColored().also {
+            it.addHandler(getHandler())
+        }
     }
 
     override fun getHandler(): Handler {

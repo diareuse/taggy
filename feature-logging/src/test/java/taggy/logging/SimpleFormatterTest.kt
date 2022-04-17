@@ -23,4 +23,11 @@ internal class SimpleFormatterTest {
         }
     }
 
+    @Test
+    fun getTail() {
+        expect(System.lineSeparator()) {
+            formatter.getTail(null)
+        }
+    }
+
 }

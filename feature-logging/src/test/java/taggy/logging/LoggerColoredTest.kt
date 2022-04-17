@@ -8,6 +8,7 @@ import org.mockito.kotlin.mockingDetails
 import java.util.logging.Handler
 import java.util.logging.Level
 import java.util.logging.LogRecord
+import kotlin.test.expect
 
 internal class LoggerColoredTest {
 
@@ -19,57 +20,61 @@ internal class LoggerColoredTest {
     @BeforeEach
     fun setUp() {
         MockitoAnnotations.openMocks(this).close()
-        logger = LoggerColored(handler)
+        logger = LoggerColored()
         logger.level = Level.ALL
+        logger.addHandler(handler)
     }
 
     @Test
     fun `log severe`() {
-        logger.severe { "" }
-        handler.verifyPublish(Level.SEVERE, "\u001B[31m\u001B[0m")
+        logger.severe { "severe" }
+        handler.verifyPublish(Level.SEVERE, "\u001B[1;31msevere\u001B[0m")
     }
 
     @Test
     fun `log warning`() {
-        logger.warning { "" }
-        handler.verifyPublish(Level.WARNING, "\u001B[33m\u001B[0m")
+        logger.warning { "warning" }
+        handler.verifyPublish(Level.WARNING, "\u001B[0;33mwarning\u001B[0m")
     }
 
     @Test
     fun `log INFO`() {
-        logger.info { "" }
-        handler.verifyPublish(Level.INFO, "")
+        logger.info { "info" }
+        handler.verifyPublish(Level.INFO, "\u001B[0;37minfo\u001B[0m")
     }
 
     @Test
     fun `log CONFIG`() {
-        logger.config { "" }
-        handler.verifyPublish(Level.CONFIG, "")
+        logger.config { "config" }
+        handler.verifyPublish(Level.CONFIG, "\u001B[0;37mconfig\u001B[0m")
     }
 
     @Test
     fun `log FINE`() {
-        logger.fine { "" }
-        handler.verifyPublish(Level.FINE, "")
+        logger.fine { "fine" }
+        handler.verifyPublish(Level.FINE, "\u001B[0;37mfine\u001B[0m")
     }
 
     @Test
     fun `log FINER`() {
-        logger.finer { "" }
-        handler.verifyPublish(Level.FINER, "")
+        logger.finer { "finer" }
+        handler.verifyPublish(Level.FINER, "\u001B[0;37mfiner\u001B[0m")
     }
 
     @Test
     fun `log FINEST`() {
-        logger.finest { "" }
-        handler.verifyPublish(Level.FINEST, "")
+        logger.finest { "finest" }
+        handler.verifyPublish(Level.FINEST, "\u001B[0;37mfinest\u001B[0m")
     }
 
     // ---
 
-    private fun Handler.verifyPublish(level: Level, message: String) = mockingDetails(this).invocations
-        .filter { it.method.name == "publish" }
-        .map { it.arguments.first() as LogRecord }
-        .first { it.level == level && it.message == message }
+    private fun Handler.verifyPublish(level: Level, message: String) = expect(message) {
+        mockingDetails(this).invocations
+            .filter { it.method.name == "publish" }
+            .map { it.arguments.first() as LogRecord }
+            .firstOrNull { it.level == level }
+            ?.message
+    }
 
 }
