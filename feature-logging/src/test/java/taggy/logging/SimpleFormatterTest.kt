@@ -18,15 +18,8 @@ internal class SimpleFormatterTest {
     @Test
     fun format() {
         val message = "hello hello!"
-        expect(message) {
+        expect(message + System.lineSeparator()) {
             formatter.format(LogRecord(Level.ALL, message))
-        }
-    }
-
-    @Test
-    fun getTail() {
-        expect(System.lineSeparator()) {
-            formatter.getTail(null)
         }
     }
 
