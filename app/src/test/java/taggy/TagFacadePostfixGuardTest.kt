@@ -24,7 +24,7 @@ internal class TagFacadePostfixGuardTest {
     @Test
     fun `createTag clears revision`() {
         facade = TagFacadePostfixGuard(source, arguments(postfix = "beta"))
-        expect(SemanticTag("1.0.0", type = "beta", revision = null)) {
+        expect(SemanticTag("1.0.0", type = "beta", revision = 0)) {
             facade.createTag()
         }
     }

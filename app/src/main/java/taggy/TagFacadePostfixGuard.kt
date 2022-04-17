@@ -15,7 +15,11 @@ class TagFacadePostfixGuard(
         return original.copy(
             separator = separator,
             type = postfix ?: original.type,
-            revision = original.revision.takeUnless { postfix != null && postfix != original.type }
+            revision = when (postfix) {
+                null -> original.revision
+                original.type -> original.revision
+                else -> 0
+            }
         )
     }
 
