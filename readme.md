@@ -25,72 +25,131 @@
 
 ---
 
-## Patterns
+## Download
 
-As taggy aims to support different kinds of version schemes without the knowledge of the given scheme, you're required
-to provide the utility with valid regex scheme. It will automatically filter the results and sort them for you.
+Navigate to [Releases]("http://github.com/diareuse/taggy/releases"), download binary per your platform.
 
-The main requirement is only that the leftmost number has the highest priority and so the leftmost has the least.
+## Usage
+
+> Please note that `taggy` requires mandatory `pattern` parameter. You should create an alias depending on which pattern
+> you would like to use.
 
 ```bash
+# vanilla semantic versioning
 alias tagsem="taggy --pattern \"([0-9]+\.)+[0-9]+(-[a-z]+[0-9]+)?\"" # 2.13.46 || 2.13.46.1 || 2.13.46-dev2
-alias tagint="taggy --pattern \"$(date +%Y)(\.[0-9]+)+(-[a-z]+[0-9]+)?\"" # 2021.10 || 2021.10.1 || 2021.10-dev2
-# add more aliases of your liking
+
+# year based versioning (does not conform with semver)
+alias tagdate="taggy --pattern \"$(date +%Y)(\.[0-9]+)+(-[a-z]+[0-9]+)?\"" # 2022.10 || 2022.10.1 || 2022.10-dev2
 ```
 
-## Basic Usage
-
-### First tag
-
-```bash
-tagsem -v 1.0.0 # -> creates 1.0.0
+```markdown
+usage: taggy [-a <arg>] [--everywhere] [-f] [-p] --pattern <arg>
+       [--postfix-separator <arg>] [-t <arg>] [-v <arg>]
+ -a,--postfix <arg>             Appends postfix (after) to the latest
+                                fetched or provided version. If not
+                                provided, the program will try to reuse
+                                existing postfix from the last tag.
+                                Whenever the last tag contains number it's
+                                incremented if and only if the provided
+                                postfix matches with the tag's postfix.
+                                Even if this last tag has no postfixes it
+                                will be omitted. Increment is always
+                                preferred on postfix (1.0.0-dev1 ->
+                                1.0.0-dev2), however if no postfix is
+                                found or provided the last number segment
+                                from the tag is incremented. (1.0.0 ->
+                                1.0.1)
+    --everywhere                [DEPRECATED] Instructs the program to look
+                                for tags in every branch. This might be
+                                useful when features are separated by
+                                branches and not bound to specific
+                                version. If disabled the program will look
+                                only into merged tags (ie. current
+                                branch).
+ -f,--force                     Forces all tags on all remotes (or push
+                                targets) to be deleted and created again.
+                                Tags will be deleted locally and on the
+                                provided or all remotes. Please note that
+                                not clearing tags on all remotes might
+                                result in pull conflicts.
+ -p,--push                      Informs the program that you want to also
+                                push the tag you created. This is by
+                                default to all remotes. You can limit
+                                remotes by using -t or --push-targets.
+    --pattern <arg>             Specifies java regex pattern for the
+                                program to use when listing tags. It
+                                bypasses git's implementation since it
+                                uses non-robust wildcard implementation.
+                                This parameter is required. See
+                                documentation for examples, visit
+                                regex101.com to test your implementation.
+    --postfix-separator <arg>   Separator which will be used for parsing
+                                appended postfix and appending the postfix
+                                when constructing tag. Beware that if you
+                                want to change separator, you need to
+                                provide the entire ensemble. (ie. postfix,
+                                postfix-separator and version)
+ -t,--push-targets <arg>        Specifies which targets are used in order
+                                to push the newly created tags. Targets
+                                are separated with "," with no spaces.
+                                When used -p and -t in conjunction, the
+                                targets must not be empty.
+ -v,--version <arg>             Program will use this version code without
+                                any increments in order to construct new
+                                tag. Note that if postfix was provided it
+                                will use the postfix as well in the tag
+                                construction process.
 ```
 
-### Basic increments
+## How `taggy` works
 
-Given last tag is `2.0.10`
+It works as a wrapper over `git` client installed on your device to fetch, sort, create and publish tags with respect to
+the semantic versioning scheme. It uses a consistent comparator to determine which tag is the newest.
+
+---
+
+The program will try to increment the lowest available version segment.
 
 ```bash
-tagsem # -> creates 2.0.11
+# <- 1.0.0
+tagsem
+# -> 1.0.1
+
+# <- 1.0.0-alpha1 
+tagsem
+# -> 1.0.0-alpha2
+
+# <- 1.0.0-alpha3
+tagsem -a beta
+# -> 1.0.1-beta1
 ```
 
-Given last tag is `2.0.11-dev1`
+---
+
+You can use `taggy` to publish (push) tags on your behalf.
 
 ```bash
-tagsem         # -> creates 2.0.11-dev2
-tagsem -a test # -> creates 2.0.12-test1
-tagsem -a test # -> creates 2.0.12-test2
-tagsem -a dev  # -> creates 2.0.13-dev1
-# and so forth…
+tagsem -p
 ```
 
-### Starting new version
+And also implicitly request to rewrite any existing tags.
 
 ```bash
-tagsem -v 1.1.0 -a dev # -> creates 1.1.0-dev1
+tagsem -fp
 ```
 
-### Change separator
+---
 
-Given last tag is `1.1.1`
+Completely new version? Not a problem.
 
 ```bash
-tagsem -a test --postfix-separator="/" # -> creates 1.1.2/test1
+tagsem -v 2.0.0 -a alpha1
 ```
 
-### Push
-
-Given last tag is `1.1.2-test1`
+Done with 2.0.0? Let's ship it!
 
 ```bash
-tagsem -p           # -> pushes 1.1.2-test2 to all remotes
-tagsem -p -t origin # -> pushes 1.1.2-test3 to origin
-```
-
-### Conflicting tag
-
-```bash
-tagsem -v 1.1.2 -a test3 -p -f # -> deletes references to 1.1.2-test3, creates 1.1.2-test3 and pushes to all remotes
+tagsem -v 2.0.0 -p -t origin,eaplay
 ```
 
 <a href="https://www.flaticon.com/free-icons/dog-tag" title="dog tag icons">Dog tag icons created by Nikita Golubev -
