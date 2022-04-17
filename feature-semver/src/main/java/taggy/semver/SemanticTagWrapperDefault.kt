@@ -11,10 +11,11 @@ class SemanticTagWrapperDefault(
 
     override fun next(): SemanticTag {
         val segments = adapter.adapt(tag)
-        if (segments.revision != null)
-            return construct(segments.copy(revision = segments.revision + 1))
-
-        return construct(segments.copy(segments = increment(segments.segments)))
+        return when (segments.revision) {
+            null -> construct(segments.copy(segments = increment(segments.segments)))
+            0L -> construct(segments.copy(segments = increment(segments.segments), revision = 1))
+            else -> construct(segments.copy(revision = segments.revision + 1))
+        }
     }
 
     private fun construct(segments: SemanticSegments): SemanticTag {

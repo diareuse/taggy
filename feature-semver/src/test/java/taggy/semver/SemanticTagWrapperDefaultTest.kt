@@ -47,4 +47,14 @@ internal class SemanticTagWrapperDefaultTest {
         }
     }
 
+    @Test
+    fun `next returns incremented segment and first revision`() {
+        tag = tag.copy(type = "beta")
+        wrapper = SemanticTagWrapperDefault(tag, adapter)
+        whenever(adapter.adapt(tag)).thenReturn(SemanticSegments(listOf(1, 0, 0), 0))
+        expect("1.0.1-beta1") {
+            wrapper.next().asString()
+        }
+    }
+
 }
