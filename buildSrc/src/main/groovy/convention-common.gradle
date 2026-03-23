@@ -8,19 +8,19 @@ group rootProject.group
 version rootProject.version
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.14"
 }
 
 compileKotlin {
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '21'
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 }
 
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '21'
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 }
@@ -42,5 +42,8 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.20"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:6.0.3"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:6.0.3"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:6.0.3"
 }

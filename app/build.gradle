@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClassName = "taggy.App"
+    mainClass = "taggy.App"
 }
 
 dependencies {
