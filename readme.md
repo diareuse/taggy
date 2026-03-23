@@ -27,7 +27,7 @@
 
 ## Download
 
-Navigate to [Releases]("http://github.com/diareuse/taggy/releases"), download binary per your platform.
+Navigate to [Releases]("https://github.com/diareuse/taggy/releases"), download binary per your platform.
 
 ## Usage
 
